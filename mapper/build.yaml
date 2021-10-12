@@ -1,7 +1,7 @@
 builders:
-  dart_json_mapper:
-    target: ":dart_json_mapper"
-    import: "package:dart_json_mapper/builder_factory.dart"
+  naked_mapper:
+    target: ":naked_mapper"
+    import: "package:naked_mapper/builder_factory.dart"
     builder_factories: ["dartJsonMapperBuilder"]
     build_extensions: {".dart": [".mapper.g.dart"]}
     auto_apply: root_package
@@ -26,7 +26,7 @@ builders:
 targets:
   $default:
     builders:
-      dart_json_mapper:
+      naked_mapper:
         options:
           iterables: List, Set
         generate_for:

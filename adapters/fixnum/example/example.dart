@@ -1,6 +1,6 @@
 library json_mapper_fixnum.example;
 
-import 'package:dart_json_mapper/dart_json_mapper.dart'
+import 'package:naked_mapper/dart_json_mapper.dart'
     show JsonMapper, jsonSerializable, SerializationOptions;
 import 'package:dart_json_mapper_fixnum/dart_json_mapper_fixnum.dart'
     show fixnumAdapter;

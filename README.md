@@ -1,9 +1,9 @@
 [![Build Status][ci-badge]][ci-badge-url]
-[![pub package](https://img.shields.io/pub/v/dart_json_mapper.svg)](https://pub.dartlang.org/packages/dart_json_mapper)
+[![pub package](https://img.shields.io/pub/v/naked_mapper.svg)](https://pub.dartlang.org/packages/naked_mapper)
 
 This package allows programmers to annotate Dart objects in order to
   Serialize / Deserialize them to / from JSON.
-  
+
 ## Why?
 
 * Compatible with **all** target platforms for Dart language, **NO** dependency on `dart:mirrors`, one of the reasons is described [here][1].
@@ -17,8 +17,8 @@ This package allows programmers to annotate Dart objects in order to
 * `Configuration over code` brings **predictability** to your codebase, while reducing overall amount of code to read / maintain
 * Because Serialization/Deserialization is **NOT** a responsibility of your Model classes.
 
-Dart classes reflection mechanism is based on [reflectable][3] library. 
-This means "extended types information" is auto-generated out of existing Dart program 
+Dart classes reflection mechanism is based on [reflectable][3] library.
+This means "extended types information" is auto-generated out of existing Dart program
 guided by the annotated classes **only**, as the result types information is accessible at runtime, at a reduced cost.
 
 
@@ -65,7 +65,7 @@ Please add the following dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  dart_json_mapper:
+  naked_mapper:
 dev_dependencies:
   build_runner:
 ```
@@ -76,7 +76,7 @@ Say, you have a dart program *main.dart* having some classes intended to be trav
 
 **lib/main.dart**
 ```dart
-import 'package:dart_json_mapper/dart_json_mapper.dart' show JsonMapper, jsonSerializable, JsonProperty;
+import 'package:naked_mapper/dart_json_mapper.dart' show JsonMapper, jsonSerializable, JsonProperty;
 
 import 'main.mapper.g.dart' show initializeJsonMapper;
 
@@ -95,13 +95,13 @@ class MyData {
 
 void main() {
   initializeJsonMapper();
-  
+
   print(JsonMapper.serialize(MyData(456, true, "yes")));
 }
 ```
 output:
 ```json
-{ 
+{
   "a": 456,
   "d": "yes"
 }
@@ -113,7 +113,7 @@ Go ahead and create / update `build.yaml` file in your project root directory wi
 targets:
   $default:
     builders:
-      dart_json_mapper:
+      naked_mapper:
         generate_for:
         # here should be listed entry point files having 'void main()' function
           - lib/main.dart
@@ -231,12 +231,12 @@ enum Color { red, blue, green, brown, yellow, black, white }
 class Car {
     @JsonProperty(name: 'modelName')
     String model;
-    
+
     Color color;
-    
+
     @JsonProperty(ignore: true)
     Car replacement;
-    
+
     Car(this.model, this.color);
 }
 
@@ -245,7 +245,7 @@ class Immutable {
     final int id;
     final String name;
     final Car car;
-    
+
     const Immutable(this.id, this.name, this.car);
 }
 
@@ -254,7 +254,7 @@ print(
     Immutable(1, 'Bob', Car('Audi', Color.green))
   )
 );
-``` 
+```
 output:
 ```json
 {
@@ -271,7 +271,7 @@ output:
 
 Sometimes you don't really care or don't want to store some json property as a dedicated class field,
 but instead, you would like to use it's value in constructor to calculate other class properties.
-This way you don't have a convenience to annotate a class field, but you could utilize constructor parameter for that.    
+This way you don't have a convenience to annotate a class field, but you could utilize constructor parameter for that.
 
 With the input JSON like this:
 ```json
@@ -339,7 +339,7 @@ Since Dart language has no possibility to create typed iterables dynamically, it
 to create exact typed lists/sets/etc via reflection approach. Those types has to be declared explicitly.
 
 For example List() will produce `List<dynamic>` type which can't be directly set to the concrete
-target field `List<Car>` for instance. So obvious workaround will be to cast 
+target field `List<Car>` for instance. So obvious workaround will be to cast
 `List<dynamic> => List<Car>`, which can be performed as `List<dynamic>().cast<Car>()`.
 
 Basic iterable based generics using Dart built-in types like `List<num>, List<String>, List<bool>,
@@ -359,7 +359,7 @@ To solve this we have a few options:
         typeOf<Set<Car>>(): (value) => value.cast<Car>()
       })
     );
-    
+
     final json = '[{"modelName": "Audi", "color": "green"}]';
     final myCarsList = JsonMapper.deserialize<List<Car>>(json);
     final myCarsSet = JsonMapper.deserialize<Set<Car>>(json);
@@ -375,7 +375,7 @@ To solve this we have a few options:
             typeOf<List<Car>>(): (value) => value.cast<Car>(),
             typeOf<Set<Car>>(): (value) => value.cast<Car>()
           };
-    
+
       List<Car> myCarsList;
       Set<Car> myCarsSet;
     }
@@ -446,7 +446,7 @@ class ListOfLists {
         typeOf<List<List<Item>>>(): (value) => value.cast<List<Item>>(),
         typeOf<List<Item>>(): (value) => value.cast<Item>()
       };
-  
+
   List<List<Item>>? lists;
 }
 
@@ -488,7 +488,7 @@ Generally, we always have to bear in mind following cases around Enums:
     So you should register those enums via adapter as follows:
     ```dart
     import 'package:some_package' show ThirdPartyEnum, ThirdPartyEnum2;
-    
+
     JsonMapper().useAdapter(
         JsonMapperAdapter(enumValues: {
             ThirdPartyEnum: ThirdPartyEnum.values,
@@ -496,7 +496,7 @@ Generally, we always have to bear in mind following cases around Enums:
         })
     );
     ```
-    
+
     Enum`.values` refers to a list of all possible enum values, it's a handy built in capability of all
     enum based types. Without providing all values it's not possible to traverse it's values properly.
 
@@ -702,9 +702,9 @@ expect(target[Color.blue], 2);
 
 ## Name casing styles [Pascal, Kebab, Snake, SnakeAllCaps]
 
-Assuming your Dart code is following [Camel case style][9], but that is not 
-always `true` for JSON models, they could follow 
-[one of those popular - Pascal, Kebab, Snake, SnakeAllCaps][10] styles, right? 
+Assuming your Dart code is following [Camel case style][9], but that is not
+always `true` for JSON models, they could follow
+[one of those popular - Pascal, Kebab, Snake, SnakeAllCaps][10] styles, right?
 
 That's why we need a smart way to manage that, instead of
 hand coding each property using `@JsonProperty(name: ...)` it is possible to pass
@@ -751,8 +751,8 @@ expect(instance.primaryColor, Color.grayMetallic);
 
 ## Nesting configuration
 
-In case if you need to operate on particular portions of huge JSON object and 
-you don't have a true desire to reconstruct the same deep nested JSON objects 
+In case if you need to operate on particular portions of huge JSON object and
+you don't have a true desire to reconstruct the same deep nested JSON objects
 hierarchy with corresponding Dart classes. This section is for you!
 
 Say, you have a json similar to this one
@@ -771,7 +771,7 @@ Say, you have a json similar to this one
       }
     }
   }
-}          
+}
 ```
 
 And with code similar to this one
@@ -792,13 +792,13 @@ final instance = JsonMapper.deserialize<BarObject>(json);
 // then
 expect(instance.items.length, 3);
 expect(instance.items, ['a', 'b', 'c']);
-```  
+```
 you'll have it done nice and quick.
 
 `@Json(name: 'root/foo/bar')` provides a *root nesting* for the entire annotated class,
 this means all class fields will be nested under this 'root/foo/bar' path in Json.
 
-`@JsonProperty(name: 'baz/items')` provides a field nesting relative to the class *root nesting* 
+`@JsonProperty(name: 'baz/items')` provides a field nesting relative to the class *root nesting*
 
 `name` is compliant with [RFC 6901][rfc6901] JSON pointer
 
@@ -860,7 +860,7 @@ class ProductCategory {
 ### Relative path reference to parent itself from nested object ".."
 
 In some cases objects need to interact with their (owning) parent object. The easiest pattern is to
-add a referencing field for the parent which is initialized during construction of the child object. 
+add a referencing field for the parent which is initialized during construction of the child object.
 The path notation ".." supports this pattern:
 
 ```dart
@@ -951,8 +951,8 @@ class FieldAliasObject {
 Scheme - is a set of annotations associated with common scheme id.
 This enables the possibility to map a **single** Dart class to **many** different JSON structures.
 
-This approach usually useful for distinguishing [DEV, PROD, TEST, ...] environments, w/o producing separate 
-Dart classes for each environment.  
+This approach usually useful for distinguishing [DEV, PROD, TEST, ...] environments, w/o producing separate
+Dart classes for each environment.
 
 ``` dart
 enum Scheme { A, B }
@@ -1068,7 +1068,7 @@ expect(cloneCar.model, car.model);
 
 ## Custom types
 
-For the very custom types, specific ones, or doesn't currently supported by this library, you can 
+For the very custom types, specific ones, or doesn't currently supported by this library, you can
 provide your own custom Converter class per each custom runtimeType.
 
 ```dart
@@ -1080,7 +1080,7 @@ abstract class ICustomConverter<T> {
 ```
 
 All you need to get going with this, is to implement this abstract class
- 
+
 ```dart
 class CustomStringConverter implements ICustomConverter<String> {
   const CustomStringConverter() : super();
@@ -1097,7 +1097,7 @@ class CustomStringConverter implements ICustomConverter<String> {
 }
 ```
 
-And register it afterwards, if you want to have it applied for **all** occurrences of specified type 
+And register it afterwards, if you want to have it applied for **all** occurrences of specified type
 
 ```dart
 JsonMapper().useAdapter(JsonMapperAdapter(
@@ -1107,7 +1107,7 @@ JsonMapper().useAdapter(JsonMapperAdapter(
 );
 ```
 
-OR use it individually on selected class fields, via `@JsonProperty` annotation 
+OR use it individually on selected class fields, via `@JsonProperty` annotation
 
 ```dart
 @JsonProperty(converter: CustomStringConverter())
@@ -1119,8 +1119,8 @@ String title;
 * `@JsonSerializable()` or `@jsonSerializable` for short, It's a **required** marker annotation for Class, Mixin, or Enum declarations.
 Use it to mark all the Dart objects you'd like to be traveling to / from JSON
     * Has **NO** params
-* `@JsonConstructor()` or `@jsonConstructor` for short, It's an **optional** constructor only marker annotation. 
-Use it to mark specific Dart class constructor you'd like to be used during deserialization.    
+* `@JsonConstructor()` or `@jsonConstructor` for short, It's an **optional** constructor only marker annotation.
+Use it to mark specific Dart class constructor you'd like to be used during deserialization.
     * *scheme* dynamic [Scheme](#schemes) marker to associate this meta information with particular mapping scheme
 * `@Json(...)` It's an **optional** annotation for class declaration, describes a Dart object to JSON Object mapping.
 Why it's not a `@JsonObject()`? just for you to type less characters :smile:
@@ -1139,7 +1139,7 @@ Example: `'foo', 'bar', 'foo/bar/baz'`
     * *name* Defines [RFC 6901][rfc6901] JSON pointer, denotes the name/path/aliases to be used for property mapping relative to the class *root nesting*
 Example: `'foo', 'bar', 'foo/bar/baz', ['foo', 'bar', 'baz'], '../foo/bar'`
     * *scheme* dynamic [Scheme](#schemes) marker to associate this meta information with particular mapping scheme
-    * *converter* Declares custom converter instance, to be used for annotated field serialization / deserialization 
+    * *converter* Declares custom converter instance, to be used for annotated field serialization / deserialization
     * *converterParams* A `Map` of parameters to be passed to the converter instance
     * *flatten* Declares annotated field to be flattened and merged with the host object
     * *notNull* A bool declares annotated field as NOT NULL for serialization / deserialization process
@@ -1163,8 +1163,8 @@ Builder can be configured using `build.yaml` file at the root of your project.
 targets:
   $default:
     builders:
-      # This part configures dart_json_mapper builder
-      dart_json_mapper:
+      # This part configures naked_mapper builder
+      naked_mapper:
         options:
           iterables: List, Set, HashSet, UnmodifiableListView
         generate_for:
@@ -1200,7 +1200,7 @@ this library shouldn't be your primary choice then. At the moment there is no wo
 
 ## Complementary adapter libraries
 
-If you want a seamless integration with popular use cases, feel free to pick an 
+If you want a seamless integration with popular use cases, feel free to pick an
 existing adapter or create one for your use case and make a PR to this repo.
 
 **Adapter** - is a library which contains a bundle of pre-configured:
@@ -1208,14 +1208,14 @@ existing adapter or create one for your use case and make a PR to this repo.
 * custom [converters](#custom-types)
 * custom [value decorators](#iterable-types)
 * custom typeInfo decorators
- 
+
 For example, you would like to refer to `Color` type from Flutter in your model class.
 
 * Make sure you have following dependencies in your `pubspec.yaml`:
 
     ```yaml
     dependencies:
-      dart_json_mapper:
+      naked_mapper:
       dart_json_mapper_flutter:
     dev_dependencies:
       build_runner:
@@ -1224,22 +1224,22 @@ For example, you would like to refer to `Color` type from Flutter in your model 
 
     ```dart
     import 'dart:ui' show Color;
-    import 'package:dart_json_mapper/dart_json_mapper.dart' show JsonMapper, jsonSerializable;    
+    import 'package:naked_mapper/dart_json_mapper.dart' show JsonMapper, jsonSerializable;
     import 'package:dart_json_mapper_flutter/dart_json_mapper_flutter.dart' show flutterAdapter;
-    
+
     import 'main.mapper.g.dart' show initializeJsonMapper;
-    
+
     @jsonSerializable
     class ColorfulItem {
       String name;
       Color color;
-    
+
       ColorfulItem(this.name, this.color);
     }
-    
+
     void main() {
       initializeJsonMapper(adapters: [flutterAdapter]);
-      
+
       print(JsonMapper.serialize(
          ColorfulItem('Item 1', Color(0x003f4f5f))
       ));
@@ -1252,8 +1252,8 @@ For example, you would like to refer to `Color` type from Flutter in your model 
       "color": "#003F4F5F"
     }
     ```
-    
-### You can easily mix and combine several adapters using following one-liner: 
+
+### You can easily mix and combine several adapters using following one-liner:
 
 ```dart
 JsonMapper()
@@ -1285,7 +1285,7 @@ JsonMapper()
 
 [rfc6901]: https://tools.ietf.org/html/rfc6901
 
-[docs]: https://pub.dev/documentation/dart_json_mapper/latest/dart_json_mapper/dart_json_mapper-library.html
+[docs]: https://pub.dev/documentation/naked_mapper/latest/naked_mapper/naked_mapper-library.html
 
 [ci-badge]: https://github.com/k-paxian/dart-json-mapper/workflows/Pipeline/badge.svg
 [ci-badge-url]: https://github.com/k-paxian/dart-json-mapper/actions?query=workflow%3A%22Pipeline%22

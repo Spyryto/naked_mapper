@@ -2,7 +2,7 @@ library json_mapper_flutter.test;
 
 import 'dart:ui';
 
-import 'package:dart_json_mapper/dart_json_mapper.dart'
+import 'package:naked_mapper/dart_json_mapper.dart'
     show JsonMapper, jsonSerializable, SerializationOptions;
 import 'package:dart_json_mapper_flutter/dart_json_mapper_flutter.dart'
     show flutterAdapter;

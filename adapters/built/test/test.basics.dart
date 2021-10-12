@@ -1,5 +1,5 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:naked_mapper/dart_json_mapper.dart';
 import 'package:test/test.dart';
 
 /// Sample item class

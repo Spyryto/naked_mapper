@@ -1,4 +1,4 @@
-import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:naked_mapper/dart_json_mapper.dart';
 import 'package:test/test.dart';
 
 const myCustomConverter = _MyCustomConverter();

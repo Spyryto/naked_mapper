@@ -2,7 +2,7 @@ library json_mapper_flutter;
 
 import 'dart:ui' show Color;
 
-import 'package:dart_json_mapper/dart_json_mapper.dart'
+import 'package:naked_mapper/dart_json_mapper.dart'
     show
         ICustomConverter,
         DeserializationContext,

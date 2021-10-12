@@ -300,22 +300,22 @@ using composition of `Generic<T>` with `T`.
 
 ## 1.5.2
 
-* #36, Allow serialize same object instances same nesting level.  
+* #36, Allow serialize same object instances same nesting level.
 
 ## 1.5.1
 
-* Adapters management improved. Easily extend & configure mapper capabilities via modular approach. 
+* Adapters management improved. Easily extend & configure mapper capabilities via modular approach.
 
 ## 1.5.0
 
-* #34, Default Iterables converter introduced. 
+* #34, Default Iterables converter introduced.
 Partial solution to avoid value decorators approach for the cases when
 it is possible to pre-initialize Iterable field with an empty instance.
 
 ## 1.4.4
 
 * #33, Provide default values for `@JsonProperty(defaultValue: ...)`
-* #35, SerializationOptions enriched with global `ignoreNullMembers` flag 
+* #35, SerializationOptions enriched with global `ignoreNullMembers` flag
 
 ## 1.4.3
 
@@ -331,7 +331,7 @@ it is possible to pre-initialize Iterable field with an empty instance.
 
 ## 1.4.0
 
-* Enhancement #21 implemented, support @JsonConstructor to pick appropriate 
+* Enhancement #21 implemented, support @JsonConstructor to pick appropriate
 constructor for deserialization.
 * Enhancement #23 implemented, support for field names casing options for serialization. [Pascal, Kebab, Snake, SnakeAllCaps]
 
@@ -355,7 +355,7 @@ constructor for deserialization.
 ## 1.3.1
 
 * Imports refactored, from now on *everything* is imported from a single
-`import 'package:dart_json_mapper/dart_json_mapper.dart';` instead of several imports
+`import 'package:naked_mapper/dart_json_mapper.dart';` instead of several imports
 
 ## 1.2.10
 
@@ -363,12 +363,12 @@ constructor for deserialization.
 
 ## 1.2.9
 
-* Introduced possibility to specify number of allowed circular references `@Json(allowCircularReferences: 1)`   
+* Introduced possibility to specify number of allowed circular references `@Json(allowCircularReferences: 1)`
 
 ## 1.2.8
 
 * Schemes introduced. Scheme - is a set of meta annotations associated with common scheme id.
-This enables the possibility to map *single* Dart class to *many* JSON structures.   
+This enables the possibility to map *single* Dart class to *many* JSON structures.
 
 ## 1.2.7
 
@@ -547,9 +547,9 @@ This enables the possibility to map *single* Dart class to *many* JSON structure
 
 ## 0.0.4
 
-* Convert Enum values to string by default, to skip a disordered values drawback 
+* Convert Enum values to string by default, to skip a disordered values drawback
 with indexed enum values.
-* Enum's does not have to be annotated, since almost all of them are parts of 
+* Enum's does not have to be annotated, since almost all of them are parts of
 third party libraries w/o access for modification.
 * dateTimeConverter introduced
 

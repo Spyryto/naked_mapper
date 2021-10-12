@@ -1,6 +1,6 @@
 library json_mapper_fixnum;
 
-import 'package:dart_json_mapper/dart_json_mapper.dart'
+import 'package:naked_mapper/dart_json_mapper.dart'
     show
         DefaultTypeInfoDecorator,
         typeOf,

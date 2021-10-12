@@ -1,7 +1,7 @@
 targets:
   $default:
     builders:
-      dart_json_mapper:
+      naked_mapper:
         generate_for:
           - example/**.dart
           - test/_test.dart

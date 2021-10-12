@@ -1,7 +1,7 @@
 targets:
   $default:
     builders:
-      dart_json_mapper:
+      naked_mapper:
         options:
           iterables: List, Set
         generate_for:

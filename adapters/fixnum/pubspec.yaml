@@ -8,7 +8,7 @@ homepage: https://github.com/k-paxian/dart-json-mapper/tree/master/adapters/fixn
 environment:
   sdk: '>=2.14.0 <3.0.0'
 dependencies:
-  dart_json_mapper: '>=2.1.12 <3.0.0'
+  naked_mapper: '>=2.1.12 <3.0.0'
   fixnum: ^1.0.0
 dev_dependencies:
   reflectable:
@@ -16,6 +16,6 @@ dev_dependencies:
   build_runner:
   build_test:
   test:
-#dependency_overrides:
-#  dart_json_mapper:
-#    path: ../../mapper
+dependency_overrides:
+ naked_mapper:
+   path: ../../mapper

@@ -1,4 +1,4 @@
-name: dart_json_mapper
+name: naked_mapper
 version: 2.1.14
 description: >
   This package allows programmers to annotate Dart objects in order to

@@ -4,6 +4,6 @@ targets:
       reflectable:
         generate_for:
           - no/files
-      dart_json_mapper:
+      naked_mapper:
         generate_for:
           - lib/unit_testing.dart

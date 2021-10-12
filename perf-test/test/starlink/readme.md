@@ -416,7 +416,7 @@ Deserialization of 537 records executed in **200ms**, at **0.37** ms per record
 
 Serialization of 537 records executed in **145ms**, at **0.27** ms per record
 
-# dart_json_mapper
+# naked_mapper
 
 Model code
 ```dart
@@ -488,4 +488,4 @@ If your top most priority is **performance** at any cost and you are OK to
 write / read / maintain lot more boilerplate code then your natural choice would be `json_serializable` or `built_value`
 
 If your top most priority is to enjoy **clean, concise, readable, uncluttered code**, and you are OK
-to pay for all those benefits by performance degradation your natural choice would be `dart_json_mapper`
+to pay for all those benefits by performance degradation your natural choice would be `naked_mapper`
